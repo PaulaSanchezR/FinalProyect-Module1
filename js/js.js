@@ -9,33 +9,109 @@ function drawBackground(){
 }
 
 
-// create the square  
-const ShapeSquare= function(x,y, color){
+// create the square  cusntructor
+const ShapeSquare = function(x,y,color){
      this.x = x;
      this.y = y;
      this.width = 25;
      this.height = 25;
-     //console.log(this.y);
+     this.color= color;
+     //console.log(randomColor());
      ctx.fillStyle = color;
+     //this.color = ctx.fillStyle ;
     // console.log(ctx.fillStyle);
      ctx.fillRect(this.x, this.y , this.width ,this.height);
-     
 }
+
+   // create the Game cunstructor   
+const Game = function(){
+    this.sphapeArray = [];
+    this.setAllShapes=[];
+}
+// Game prototype
+Game.prototype.createSomeShapes = function(){
+    let x= 0;
+    let y= 300;
+    let counter= 4 ;
+    game.sphapeArray = [];
+    // let square = new ShapeSquare(x,y,randomColor());
+    //console.log("square= ", game.sphapeArray.length);
+    // creating the three squares on the array
+    while(game.sphapeArray.length <= counter){
+        let square = new ShapeSquare(x,y,randomColor());
+        this.addShape = game.sphapeArray.push(square);
+       // console.log(square);
+       // console.log("push squares = " ,this.addShape);
+        y += 25;
+        counter --;
+
+    }  
+    
+}
+
+const game = new Game();
+
+function randomColor(){
+    const colorArray=["red","yellow","green","blue"];
+    let randColor = Math.floor(Math.random()*colorArray.length);
+
+    //console.log(colorArray[randColor]);
+    return colorArray[randColor];
+}
+
+/*          let x= 0;
+            let y= 400;
+            let counter= 4 ;
+            // let square = new ShapeSquare(x,y,randomColor());
+            console.log("square= ", game.sphapeArray.length);
+            // creating the three squares on the array
+            while(game.sphapeArray.length <= counter){
+                let square = new ShapeSquare(x,y,randomColor());
+                this.addShape = game.sphapeArray.push(square);
+                console.log(square);
+                console.log("push squares = " ,this.addShape);
+                y += 25;
+                counter --;
+
+            }  
+        }
+ 
+
+
+
+
+
+
+function starGame(){
+  
+    console.log(game);
+    game.createSomeShapes();
+}
+
+starGame();*/
+
+//console.log("prototipe",Game.createSomeShapes);
 
 //instances of the constructur square
-let square = new ShapeSquare(); 
-square.x = 0;
-square.y = 0;
 
-// Date:  Dicember 4
-//wrap squares adding every square to an array
+    //square.x = 0;
+    //square.y = 400;
+   // let arraySquares = [];
 
-const WrapSquares = function(){
-     this.wrap = [];
-     console.log(this.wrap);
+/*function drawSquares(){
+    //draw the squares with  25 of differences on y
+    ShapeSquare(square.x, square.y);
+    ShapeSquare(square.x, square.y + 25);
+    ShapeSquare(square.x, square.y + 50);
 
-}
-
+    // saving the position  x,  y and the color
+    let squarePosition = [
+        [square.x, square.y, square.color],
+        [square.x, square.y + 25, square.color],
+        [square.x, square.y + 50, square.color]
+    ];
+    return squarePosition;
+}*/
 
 //move the squares to the left or right
 document.onkeydown = function(event){
@@ -43,54 +119,48 @@ document.onkeydown = function(event){
     switch(event.keyCode){
         // left
         case 37:
-            square.x -= 25;
+        game.sphapeArray[0].x -= 25;
+        console.log(game.sphapeArray[0].x);
             break;
         // right
         case 39:
-            square.x +=25;
+        game.sphapeArray[0].x += 25;
             break;
     }
 }
 
-function randomColor(){
-    const colorArray=["#CCCCCC","#333333","#990099"];
-    let randColor = Math.floor(Math.random()*colorArray.length) ;
-    //console.log(colorArray[randColor]);
-    return colorArray[randColor];
-}
+
+
 
 
 // Star moving the square 
-function movement(){
+function movementShape(){
      // clear the background
-   // ctx.clearRect(0,0,250,400);
-   if(checkBoundaries(square.y)){
-    console.log("llego al borde y = ", square.y);
-        StopAnimation(square.x,square.y,)
-     };
-
-    //drawing the background
+    ctx.clearRect(0,0,250,400);
     drawBackground();
-    //star moving the square by changing the y cordinator
-    square.y -=1;
-    //console.log(square.y);
+    game.createSomeShapes();
+    //console.log(game.sphapeArray);
+    //Stop animation if y is 0
+        if(game.sphapeArray[0].y === 0){
+            console.log("llego al borde y = ", game.sphapeArray[0].y);
+            StopAnimation();
+            return;
+        };
+    //drawing the background
+    //star moving the square by changing the y cordinator 
+    //this is the speed 
+    game.sphapeArray[0].y -= 1;
+   
     //loop the movement of the shape
-  if(square.y < 0){
-      square.y = 400;
+  if(game.sphapeArray[0].y < 0){
       // The * 25 let me move the squares every 25 pixels
-      square.x = Math.floor(Math.random() * 12)*25;
+      game.sphapeArray[0].x= Math.floor(Math.random() * 12)*25;
   }
-
-
-    //draw the squares with  25 of differences on y
-    ShapeSquare(square.x, square.y, randomColor());
-    //console.log(square.x,square.y);
-    ShapeSquare(square.x, square.y + 50, randomColor());
-    //console.log(square.x,square.y);
-    ShapeSquare(square.x, square.y + 25, randomColor());
+    //game.sphapeArray[0];
     // call the movement function over and over
     requestAnimationFrame (function(){
-        movement();
+    movementShape();
+        
    })
    
 }
@@ -101,9 +171,13 @@ function checkBoundaries(y){
 }
 
 function StopAnimation(){
+    //draw background
     drawBackground();
+    // draw square
+    let position=drawSquares();
+    console.log(position);
 
 
 }
 
-movement();
+movementShape();
