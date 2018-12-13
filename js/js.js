@@ -15,7 +15,7 @@ const ShapeSquare = function(x,y,color){
      this.y = y;
      this.width = 25;
      this.height = 25;
-     this.color= color;pa
+     this.color= color;
      // create a fuction to draw the square
      this.draw = function() 
             { 
@@ -38,6 +38,7 @@ const Game = function(){
 }
 // Game prototype: here we create de array of square 
 Game.prototype.createSomeShapes = function(){
+    console.log("creating")
     // x initial position 
     let x = 0;
     // y initial position
@@ -49,14 +50,13 @@ Game.prototype.createSomeShapes = function(){
     //game.sphapeArray = [];
     // creating the three squares on the array
     while(this.sphapeArray.length <= counter){
-        //instance the ShapeSquare sending three arguments 
-        //x = x initial position
-        //y = y initial position
-        //randomColor = function that bring a color from an array
+            //instance the ShapeSquare sending three arguments 
+            //x = x initial position
+            //y = y initial position
+            //randomColor = function that bring a color from an array
 
         let square = new ShapeSquare(x,y,randomColor());
-        console.log(square);
-        // add the square into the array
+         // add the square into the array
         this.addShape = this.sphapeArray.push(square);
         // increase the y position 25 to create the next square on top of each other
         y += 25;
@@ -100,7 +100,7 @@ starGame();*/
 
 // Dom manipulation to move the squares of the array
 document.onkeydown = function(event){
-    console.log(event.keyCode);
+    // console.log(event.keyCode);
     switch(event.keyCode){
         case 37:
             // move to the left all the squeare on the array, updatin the x position
@@ -119,7 +119,7 @@ document.onkeydown = function(event){
             let j=0;
             for(i= 0 ; i < game.sphapeArray.length; i ++){
                 let randomColor = Math.floor(Math.random()*4);
-                console.log("color ", game.sphapeArray[i].color);
+                // console.log("color ", game.sphapeArray[i].color);
                 game.sphapeArray[i].color = game.sphapeArray[3].color;
             }
         
@@ -136,32 +136,26 @@ function movementShape(){
     ctx.clearRect(0,0,250,400);
     //drawing the background
     drawBackground();
-    //Stop animation if the postion y=0 reach the top
-     if(game.sphapeArray[0].y === 0){
-        // game.sphapeArray[0].y;
-            // call the function StopAnimation
-             stopAnimation();
-            return;
-        };
-   
-    //star moving the square by changing the y cordinator 
+    drawMatrix();
+    //Stop animation if the postion y=0 of the first square reach the top 
     
+    if(game.sphapeArray[0].y === 0 ){
+            // console.log("y = ",game.sphapeArray[0].y );
+             stopAnimation();
+             return;
+        } 
+       // console.log(game.sphapeArray[0].y);
+        
+        
+    //star moving the square by changing the y cordinator 
         for(i=0; i < game.sphapeArray.length; i++){
          // value on y to speed the movement   
          game.sphapeArray[i].y -= 1 ;   
          // calling the draw function on the ShapeSquare constructor
          game.sphapeArray[i].draw();
-         // if the squeares hasnt reache the top move the x position 
-         /* if(game.sphapeArray[i].y < 0){
-           // The * 25 let me move the squares every 25 pixels
-           // game.sphapeArray[i].x= Math.floor(Math.random() * 12)*25;
-          }*/
+    
         }
-   //console.log(game.sphapeArray[0].y);
-    //loop the movement of the shape
- 
-    //game.sphapeArray[0];
-    // call the movement function over and over
+   
     requestAnimationFrame (function(){
     movementShape();
     
@@ -170,37 +164,98 @@ function movementShape(){
    
 }
 
-function dropShape(){
-    movementShape();
+function checkCollision(){
+
+    for (i=0; i < game.setAllShapes.length ; i ++){
+        let canvasX =  i * 25;
+        console.log("value x= ", canvasX);
+        for (j=0;j < game.setAllShapes.length; j++){
+            let canvasY = j * 25;
+          //  console.log("value y= ", canvasY);
+           // console.log("value in the matrix= ",game.setAllShapes[canvasY][canvasX] );
+            //checking if the matrix has someting on the spot
+         /*if(game.setAllShapes[canvasX][canvasY] === ""){ 
+            
+            //stopAnimation();
+            //return;
+            
+            }*/
+        }
+        
+    }
+    return;
+
 }
 
-function checkBoundaries(y){
-    // checking if the square reach the top
-    return  y === 0;
-}
+
+//*************************************************************** */
+//******************* stopAnimatin Fuction ********************** */
+// This function draw the background, insert the color on the matrix 
+// Draw the matrix and call the movementShape function to drop other
+// array of squares.
+//**************************************************************** */
 
 function stopAnimation(){
     //draw background
     drawBackground();
-    forArray();
-   // dropShape();
-  
+    // Function that insert the colors on the matrix
+    insertArrayMatrix();
+    // Function that draw the matrix
+    drawMatrix()
+    // Calling the createSomeShapes Game prototype
+    game.createSomeShapes();
+    movementShape();
 
- /*  game.setAllShapes[x][y]= game.sphapeArray[0].color;
-   console.log("x = ",game.sphapeArray[0].x, "y =", game.sphapeArray[0].y);
-   console.log("x" , x, "y = ",y);*/
- 
 }
 
-function forArray(){
-   
+//****************************************************** */
+//***** insertArrayMatrix Function********************** */
+// Insert the array of colors into the setAllShapes matrix
+//****************************************************** */
+
+
+function insertArrayMatrix(){
+   //console.log("forArray", game.sphapeArray);
     for(i=0;i < game.sphapeArray.length; i++){
         let x = (game.sphapeArray[i].x)/25;
         let y = (game.sphapeArray[i].y)/25;
+       // console.log("x /25=", x , "y/25=" , y )
      game.sphapeArray[i].draw();
      game.setAllShapes[y][x]= game.sphapeArray[i].color;
+   // console.log(" = == = = =  =",game.setAllShapes[x][y], x, y)
     }
     
+}
+
+//*************************************************************** */
+//******************* drawMatrix Function************************ */
+// navegated the matrix and draw every squeare on the canvas
+// We instace the constructor ShapeSquare that needs three parameter
+//      x position
+//      y position
+//      color
+//
+//**************************************************************** */
+
+function drawMatrix(){
+
+   for (i=0; i < game.setAllShapes.length ; i ++){
+       let canvasX = i * 25;
+
+       for (j=0;j < game.setAllShapes.length; j++){
+
+        if(game.setAllShapes[j][i]){   
+           let canvasY = j * 25;
+           let colorSaveMatrix = game.setAllShapes[j][i];
+                //console.log("x= ", canvasX , "y=", canvasY, "color ",colorSaveMatrix);
+                let squareInMatrix = new ShapeSquare(canvasX,canvasY,colorSaveMatrix);
+                squareInMatrix.draw();
+                //console.log("drawing the array=", square.draw());
+           }
+       }
+       
+   }
+
 }
 
 game.createSomeShapes();
