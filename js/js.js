@@ -147,114 +147,39 @@ function movementShape(){
     //drawing the background
     drawBackground();
     drawMatrix();
-   
+    // check if the sphapeArray on the posisiton Y reach 0  && collition is true  
+    // stop the movement
     if(game.sphapeArray[0].y  === 0 || checkCollision()){ 
-        // console.log("matrix = ",game.setAllShapes[((game.sphapeArray[0].x)/25)+2][((game.sphapeArray[0].y)/25)+2]);
-        //let lastPositionY = game.sphapeArray[0].y + 75;
-
-        stopAnimation();
+         stopAnimation();
          return;
-}
-
-
-    // Finding the module of the y position, 
-    //if the module is 0 means that the position on Y is the 25 square height of the matrix
-    // matrix is 400 / 25 = 16
-   /* let shapeYPosition =  game.sphapeArray[0].y % 25;
-    let matrixPositionX = game.sphapeArray[0].x / 25;
-    let matrixPositionY = (Math.floor(game.sphapeArray[0].y / 25))- 1;
-
-
-   //console.log("module position ",game.sphapeArray[0].y % 25 );
-  // console.log("y position = ", game.sphapeArray[0].y , "matrixPositionX =" , matrixPositionX, "matrixPositionY =" , matrixPositionY);
-  // console.log("matrix ===" , game.setAllShapes[matrixPositionX][matrixPositionY])  ;
-  // console.table(game.setAllShapes);
-      if (shapeYPosition === 0)
-      {   //console.log("===== entro al cero" )
-          //console.log("matrixPositionY ===" ,matrixPositionY,"matrixPositionX", matrixPositionX )  ;
-         
-         // console.log("matrix = ", game.setAllShapes[matrixPositionX][matrixPositionY]);
-       // for that check the matrix for 0 value on the X and Y sphapArray[0] position
-       if(game.setAllShapes[matrixPositionX][matrixPositionY] != 0)
-       {
-       // console.log("===== matrix esta vacia" );
-       // console.log("matrix legn",game.setAllShapes.length );
-       // console.log("matrixPositionY ===" ,matrixPositionY,"matrixPositionX", matrixPositionX )  ;
-            for (i=0; i < game.setAllShapes.length ; i ++){
-                        
-                for (j=0;j < game.setAllShapes.length; j++){
-               //  console.log("matrixPositionY ===" ,matrixPositionX,"matrixPositionX", matrixPositionX )  ;
-               //  console.log("i = ", i , "j == " , j);
-                 if(matrixPositionY === j && matrixPositionX === i ){ 
-                     if(game.setAllShapes[matrixPositionX][matrixPositionY] === 0)  
-                     {
-                    stopAnimation();
-                    return;
-                     }
-                    }
-                }
-                
-            }
         }
-
-      }
-    //console.log(game.setAllShapes[game.ShapeSquare[0].x][(game.ShapeSquare[0].y)]);
-    //let inicialPosition;
-    //inicialPosition = checkCollision(inicialPosition);
-    
-    //Stop animation if the postion y=0 of the first square reach the top 
-   if(game.sphapeArray[0].y  === 0 ){
-            // console.log("matrix = ",game.setAllShapes[((game.sphapeArray[0].x)/25)+2][((game.sphapeArray[0].y)/25)+2]);
-            let lastPositionY = game.sphapeArray[0].y + 75;
-
-            stopAnimation();
-             return;
-    }else if(game.setAllShapes[game.ShapeSquare[0].x][(game.ShapeSquare[0].y)-25] != 0 ){
-            stopAnimation();
-            return;
-    }*/
-
-       // console.log(game.sphapeArray[0].y);
-        
-        
     //star moving the square by changing the y cordinator 
         for(i=0; i < game.sphapeArray.length; i++){
          // value on y to speed the movement   
-         game.sphapeArray[i].y -= 1 ;   
+         game.sphapeArray[i].y -= 1 ;  
+         
          // calling the draw function on the ShapeSquare constructor
          game.sphapeArray[i].draw();
-         
-    
         }
-
-      /*  if(checkCollision()){
-         //   console.log("entro collision true");
-        }else{
-          //  console.log("entro collision false");
-    *
-        }*/
-       // checkCollision();
-
     requestAnimationFrame (function(){
     movementShape();
-    
-        
-   })
-   
+   });
 }
 
+/************************************************/
+/********* function that checkCollision *********/
+// this function check "Y" position of the array
+// one position below on the matrix 
+// if 
+/********************************************** */
 function checkCollision(){
-   // game.createSomeShapes();
    let collision = false;
-    //console.log('game.setAllShape', game.setAllShapes);
+   //console.log('game.setAllShape', game.setAllShapes);
    //console.log('game.shapeArray', game.sphapeArray);
    //console.log(game.sphapeArray[0].y);
    let shapeArrayY= Math.floor(game.sphapeArray[0].y/25);
    let shapeArrayX = Math.floor(game.sphapeArray[0].x/25);
-  // console.log(shapeArrayY);
-  // console.log(shapeArrayX);
-
-        //console.log(game.setAllShapes[shapeArrayY][shapeArrayX]);
+ 
         let shapeArrayYT;
         if (shapeArrayY-1 < 0){
             shapeArrayYT= shapeArrayY;
@@ -283,12 +208,23 @@ function stopAnimation(){
 
     // Function that insert the colors on the matrix
     insertArrayMatrix();
+    deleteEqualColor();
     // Function that draw the matrix
     drawMatrix()
     // Calling the createSomeShapes Game prototype
     game.createSomeShapes();
     movementShape();
 
+}
+
+
+function deleteEqualColor(){
+    let shapeArrayY= Math.floor(game.sphapeArray[0].y/25);
+    let shapeArrayX = Math.floor(game.sphapeArray[0].x/25);
+    console.log("shapeArrayY", shapeArrayY ,"shapeArrayX", shapeArrayX );
+   /* if (game.setAllShapes[shapeArrayY][shapeArrayX] === game.setAllShapes[shapeArrayY-1][shapeArrayX-1]){
+        game.setAllShapes.splice([shapeArrayY][shapeArrayX]);
+}*/
 }
 
 //****************************************************** */
@@ -302,10 +238,20 @@ function insertArrayMatrix(){
     for(i=0;i < game.sphapeArray.length; i++){
         let x = Math.floor(game.sphapeArray[i].x/25);
         let y = Math.floor(game.sphapeArray[i].y/25);
-       // console.log("x /25=", x , "y/25=" , y )
-     game.sphapeArray[i].draw();
-     game.setAllShapes[y][x]= game.sphapeArray[i].color;
-   // console.log(" = == = = =  =",game.setAllShapes[x][y], x, y)
+     //console.log("array length ==" , game.sphapeArray.length );
+   /* if(y === 18 && i === 0) {  
+         i = game.sphapeArray.length;
+         gameOver();
+         
+    }
+    else{*/
+        //console.log("x /25=", x , "y/25=" , y );
+        //console.log(game.sphapeArray[i].y);
+        //console.log("i =", i);
+        game.sphapeArray[i].draw();
+        game.setAllShapes[y][x]= game.sphapeArray[i].color;
+    // console.log(" = == = = =  =",game.setAllShapes[x][y], x, y)
+      //  }
     }
     
 }
@@ -339,6 +285,12 @@ function drawMatrix(){
        
    }
 
+}
+
+function gameOver(){
+   
+    console.log("Game over");
+   // return true;
 }
 
 game.createSomeShapes();
