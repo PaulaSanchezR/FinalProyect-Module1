@@ -187,7 +187,7 @@ function checkCollision(){
             shapeArrayYT = shapeArrayY-1;
         }
     if(game.setAllShapes[shapeArrayYT][shapeArrayX]){
-        collision = true; 
+         collision = true; 
     };
 
     return collision;
@@ -219,12 +219,54 @@ function stopAnimation(){
 
 
 function deleteEqualColor(){
-    let shapeArrayY= Math.floor(game.sphapeArray[0].y/25);
-    let shapeArrayX = Math.floor(game.sphapeArray[0].x/25);
-    console.log("shapeArrayY", shapeArrayY ,"shapeArrayX", shapeArrayX );
-   /* if (game.setAllShapes[shapeArrayY][shapeArrayX] === game.setAllShapes[shapeArrayY-1][shapeArrayX-1]){
-        game.setAllShapes.splice([shapeArrayY][shapeArrayX]);
-}*/
+   
+        //let collision = false;
+        //console.log('game.setAllShape', game.setAllShapes);
+        //console.log('game.shapeArray', game.sphapeArray);
+        console.log(Math.floor(game.sphapeArray[2].x/25));
+        let shapeArrayY= Math.floor(game.sphapeArray[0].y/25);
+        let shapeArrayX = Math.floor(game.sphapeArray[0].x/25);
+      
+             let shapeArrayYT;
+             // if Y is -1 asing the value of shapeArrayY
+             if (shapeArrayY-1 < 0){
+                 shapeArrayYT= shapeArrayY;
+             } else{
+                 // 
+                 shapeArrayYT = shapeArrayY-1;
+             }
+        if(game.setAllShapes[shapeArrayYT][shapeArrayX]){
+             console.log("Datos cuando colpasa",game.setAllShapes[shapeArrayYT][shapeArrayX]);
+             console.log("siguiente position",game.setAllShapes[shapeArrayYT + 1][shapeArrayX]);
+             console.log("dos position mas",game.setAllShapes[shapeArrayYT + 2][shapeArrayX]);
+             console.log("position x", shapeArrayX,"position y",shapeArrayYT);
+             
+            // console.log("anterior position",game.setAllShapes[shapeArrayYT -1][shapeArrayX]);
+             if(game.setAllShapes[shapeArrayYT][shapeArrayX] === game.setAllShapes[shapeArrayYT + 1][shapeArrayX] 
+                && game.setAllShapes[shapeArrayYT + 1][shapeArrayX] === game.setAllShapes[shapeArrayYT + 2][shapeArrayX]){
+                console.log("es igual");
+                 game.setAllShapes[shapeArrayYT][shapeArrayX] = 0;
+                 game.setAllShapes[shapeArrayYT + 1][shapeArrayX] = 0;
+                 game.setAllShapes[shapeArrayYT + 2][shapeArrayX] = 0;
+                 
+                if (game.setAllShapes[shapeArrayYT + 3][shapeArrayX]){
+                    console.log("Hay otro cuadro");
+                    game.setAllShapes[shapeArrayYT][shapeArrayX]= game.setAllShapes[shapeArrayYT + 3][shapeArrayX];
+                    game.setAllShapes[shapeArrayYT + 3][shapeArrayX]=0;
+                 }
+                 /* if (game.setAllShapes[shapeArrayYT + 4][shapeArrayX]){
+                    game.setAllShapes[shapeArrayYT][shapeArrayX]=game.setAllShapes[shapeArrayYT +3][shapeArrayX];
+                    game.setAllShapes[shapeArrayYT +4][shapeArrayX]=0;
+                }*/
+
+             }
+     
+     
+              
+         };
+     
+        // return collision;
+     
 }
 
 //****************************************************** */
