@@ -19,10 +19,27 @@ const ShapeSquare = function(x,y,color){
      // create a fuction to draw the square
      this.draw = function() 
             { 
+                /*let my_gradient = ctx.createLinearGradient(this.x, this.y, 220, 0);
+                my_gradient.addColorStop (0 , color);
+                my_gradient.addColorStop(1, "white")
+                ctx.fillStyle = my_gradient;*/
                 ctx.fillStyle = color;
                 ctx.fillRect(this.x, this.y , this.width ,this.height);
+                ctx.clearRect(this.x + 6, this.y + 6  , 10  ,10);
             }
 }
+/*
+
+    let my_gradient = ctx.createLinearGradient(0, 0, 170, 0);
+    my_gradient.addColorStop(0, "red");
+    my_gradient.addColorStop(1, "blue");
+    ctx.fillStyle = my_gradient;<!--from  www.j av a  2 s.c om-->
+    ctx.fillRect(20, 20, 150, 100);
+
+*/
+
+
+
 
 const Boundaries = function (){
  //offsetX value of the border position on X
@@ -35,7 +52,7 @@ const Boundaries = function (){
 
    // create the Game cunstructor   
 const Game = function(){
-   
+    this.score= 0 ;
     this.sphapeArray = [];
     //iniciatilation the matrix with 0
     this.setAllShapes = [];
@@ -123,15 +140,21 @@ document.onkeydown = function(event){
 
             for(i =0; i < game.sphapeArray.length ; i ++){
                 game.sphapeArray[i].x += 25;
+                
                 }
         break;
         case 40:
-            let j=0;
-            for(i= 0 ; i < game.sphapeArray.length; i ++){
-                let randomColor = Math.floor(Math.random()*4);
-                // console.log("color ", game.sphapeArray[i].color);
-                game.sphapeArray[i].color = game.sphapeArray[3].color;
+        for(i =0; i < game.sphapeArray.length ; i ++){
+            game.sphapeArray[i].draw = "pink";
             }
+       
+           /* let firstColor = game.sphapeArray[0].color
+            let secondColor = game.sphapeArray[1].color
+            game.sphapeArray[0].color = game.sphapeArray[2].color ;
+            game.sphapeArray[1].color = firstColor ;
+            game.sphapeArray[2].color = secondColor;
+            console.log(game.sphapeArray);*/
+            
         
         break;
 
@@ -147,6 +170,7 @@ function movementShape(){
     //drawing the background
     drawBackground();
     drawMatrix();
+    showScore();
     // check if the sphapeArray on the posisiton Y reach 0  && collition is true  
     // stop the movement
     if(game.sphapeArray[0].y  === 0 || checkCollision()){ 
@@ -210,20 +234,72 @@ function stopAnimation(){
     insertArrayMatrix();
     deleteEqualColor();
     // Function that draw the matrix
+    showScore();
     drawMatrix()
+    showScore();
     // Calling the createSomeShapes Game prototype
     game.createSomeShapes();
     movementShape();
 
 }
+// Delete the squares when there is one on the last array siting on the same X value
+// works also when the all squares are save on Y = 0 it will disapire the tree squares
+function deleteTwoFromOne(shapeArrayX,shapeArrayYT){
 
+    if(game.setAllShapes[shapeArrayYT][shapeArrayX] === game.setAllShapes[shapeArrayYT + 1][shapeArrayX] 
+        && game.setAllShapes[shapeArrayYT + 1][shapeArrayX] === game.setAllShapes[shapeArrayYT + 2][shapeArrayX]){
+        console.log("es igual");
+         game.setAllShapes[shapeArrayYT][shapeArrayX] = 0;
+         game.setAllShapes[shapeArrayYT + 1][shapeArrayX] = 0;
+         game.setAllShapes[shapeArrayYT + 2][shapeArrayX] = 0;
+         game.setAllShapes[shapeArrayYT][shapeArrayX]= game.setAllShapes[shapeArrayYT + 3][shapeArrayX];
+         game.setAllShapes[shapeArrayYT + 3][shapeArrayX]=0;
+         game.score += 100;
+    }
+}
+
+// Delete the squares when there is one on the last array siting on the same X value
+
+function deleteOneFromTwo(shapeArrayX,shapeArrayYT){
+ if(shapeArrayYT != 0) {
+    if( game.setAllShapes[shapeArrayYT][shapeArrayX] === game.setAllShapes[shapeArrayYT - 1][shapeArrayX] 
+        && game.setAllShapes[shapeArrayYT][shapeArrayX] === game.setAllShapes[shapeArrayYT + 1][shapeArrayX]){
+          game.setAllShapes[shapeArrayYT][shapeArrayX] = 0;
+         game.setAllShapes[shapeArrayYT - 1][shapeArrayX] = 0;
+         game.setAllShapes[shapeArrayYT + 1][shapeArrayX] = 0;
+         game.setAllShapes[shapeArrayYT][shapeArrayX]= game.setAllShapes[shapeArrayYT + 2][shapeArrayX];
+         game.setAllShapes[shapeArrayYT-1][shapeArrayX]= game.setAllShapes[shapeArrayYT + 3][shapeArrayX];
+         game.setAllShapes[shapeArrayYT + 2][shapeArrayX] = 0;
+         game.setAllShapes[shapeArrayYT + 3][shapeArrayX]= 0;
+         game.score += 100;
+    }
+   }
+}
+
+function deleteHorizontalFromTheCenter(shapeArrayX,shapeArrayYT){
+       console.log("shapeArrayX", shapeArrayX);
+        
+       if(    shapeArrayX > 0 
+           && shapeArrayX < 10
+           && game.setAllShapes[shapeArrayYT][shapeArrayX] === game.setAllShapes[shapeArrayYT][shapeArrayX + 1]
+           && game.setAllShapes[shapeArrayYT][shapeArrayX] === game.setAllShapes[shapeArrayYT][shapeArrayX  - 1]){
+           console.log("true");
+            game.setAllShapes[shapeArrayYT][shapeArrayX] = 0;
+            game.setAllShapes[shapeArrayYT][shapeArrayX - 1] = 0;
+            game.setAllShapes[shapeArrayYT][shapeArrayX + 1] = 0;
+            game.score += 100;
+           // game.setAllShapes[shapeArrayYT][shapeArrayX]= game.setAllShapes[shapeArrayYT + 2][shapeArrayX];
+          //  game.setAllShapes[shapeArrayYT-1][shapeArrayX]= game.setAllShapes[shapeArrayYT + 3][shapeArrayX];
+         //   game.setAllShapes[shapeArrayYT + 2][shapeArrayX] = 0;
+          //  game.setAllShapes[shapeArrayYT + 3][shapeArrayX]= 0;
+        }
+   }
 
 function deleteEqualColor(){
    
-        //let collision = false;
         //console.log('game.setAllShape', game.setAllShapes);
         //console.log('game.shapeArray', game.sphapeArray);
-        console.log(Math.floor(game.sphapeArray[2].x/25));
+       // console.log(Math.floor(game.sphapeArray[2].x/25));
         let shapeArrayY= Math.floor(game.sphapeArray[0].y/25);
         let shapeArrayX = Math.floor(game.sphapeArray[0].x/25);
       
@@ -236,32 +312,16 @@ function deleteEqualColor(){
                  shapeArrayYT = shapeArrayY-1;
              }
         if(game.setAllShapes[shapeArrayYT][shapeArrayX]){
-             console.log("Datos cuando colpasa",game.setAllShapes[shapeArrayYT][shapeArrayX]);
-             console.log("siguiente position",game.setAllShapes[shapeArrayYT + 1][shapeArrayX]);
-             console.log("dos position mas",game.setAllShapes[shapeArrayYT + 2][shapeArrayX]);
-             console.log("position x", shapeArrayX,"position y",shapeArrayYT);
+            // console.log("Datos cuando colpasa",game.setAllShapes[shapeArrayYT][shapeArrayX]);
+            // console.log("siguiente position",game.setAllShapes[shapeArrayYT + 1][shapeArrayX]);
+            // console.log("dos position mas",game.setAllShapes[shapeArrayYT + 2][shapeArrayX]);
+            // console.log("position x", shapeArrayX,"position y",shapeArrayYT);
              
             // console.log("anterior position",game.setAllShapes[shapeArrayYT -1][shapeArrayX]);
-             if(game.setAllShapes[shapeArrayYT][shapeArrayX] === game.setAllShapes[shapeArrayYT + 1][shapeArrayX] 
-                && game.setAllShapes[shapeArrayYT + 1][shapeArrayX] === game.setAllShapes[shapeArrayYT + 2][shapeArrayX]){
-                console.log("es igual");
-                 game.setAllShapes[shapeArrayYT][shapeArrayX] = 0;
-                 game.setAllShapes[shapeArrayYT + 1][shapeArrayX] = 0;
-                 game.setAllShapes[shapeArrayYT + 2][shapeArrayX] = 0;
-                 
-                if (game.setAllShapes[shapeArrayYT + 3][shapeArrayX]){
-                    console.log("Hay otro cuadro");
-                    game.setAllShapes[shapeArrayYT][shapeArrayX]= game.setAllShapes[shapeArrayYT + 3][shapeArrayX];
-                    game.setAllShapes[shapeArrayYT + 3][shapeArrayX]=0;
-                 }
-                 /* if (game.setAllShapes[shapeArrayYT + 4][shapeArrayX]){
-                    game.setAllShapes[shapeArrayYT][shapeArrayX]=game.setAllShapes[shapeArrayYT +3][shapeArrayX];
-                    game.setAllShapes[shapeArrayYT +4][shapeArrayX]=0;
-                }*/
 
-             }
-     
-     
+            deleteTwoFromOne(shapeArrayX,shapeArrayYT);
+            deleteOneFromTwo(shapeArrayX,shapeArrayYT);
+            deleteHorizontalFromTheCenter(shapeArrayX,shapeArrayYT);
               
          };
      
@@ -269,6 +329,10 @@ function deleteEqualColor(){
      
 }
 
+
+function showScore(){
+    document.getElementById("score").innerHTML = game.score;
+ }
 //****************************************************** */
 //***** insertArrayMatrix Function********************** */
 // Insert the array of colors into the setAllShapes matrix
@@ -280,19 +344,13 @@ function insertArrayMatrix(){
     for(i=0;i < game.sphapeArray.length; i++){
         let x = Math.floor(game.sphapeArray[i].x/25);
         let y = Math.floor(game.sphapeArray[i].y/25);
-     //console.log("array length ==" , game.sphapeArray.length );
-   /* if(y === 18 && i === 0) {  
-         i = game.sphapeArray.length;
-         gameOver();
-         
-    }
-    else{*/
-        //console.log("x /25=", x , "y/25=" , y );
-        //console.log(game.sphapeArray[i].y);
-        //console.log("i =", i);
-        game.sphapeArray[i].draw();
         game.setAllShapes[y][x]= game.sphapeArray[i].color;
-    // console.log(" = == = = =  =",game.setAllShapes[x][y], x, y)
+        game.sphapeArray[i].draw();
+        // if y reach the bottom Game Over
+        if (y === 18){
+            gameOver();
+        }
+    
       //  }
     }
     
@@ -330,9 +388,9 @@ function drawMatrix(){
 }
 
 function gameOver(){
-   
-    console.log("Game over");
-   // return true;
+    ctx.font = "bold 30px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("GAME OVER", 30,225);
 }
 
 game.createSomeShapes();
