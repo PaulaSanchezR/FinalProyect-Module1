@@ -25,7 +25,7 @@ const ShapeSquare = function(x,y,color){
                 ctx.fillStyle = my_gradient;*/
                 ctx.fillStyle = color;
                 ctx.fillRect(this.x, this.y , this.width ,this.height);
-                ctx.clearRect(this.x + 6, this.y + 6  , 10  ,10);
+               // ctx.clearRect(this.x + 6, this.y + 6  , 10  ,10);
             }
 }
 /*
@@ -98,7 +98,7 @@ const game = new Game();
 
 // create the random Color function
 function randomColor(){
-    const colorArray=["red","yellow","green","blue"];
+    const colorArray=["purple","rosybrown ","peru","blue"];
     let randColor = Math.floor(Math.random()*colorArray.length);
     return colorArray[randColor];
 }
@@ -331,7 +331,7 @@ function deleteEqualColor(){
 
 
 function showScore(){
-    document.getElementById("score").innerHTML = game.score;
+    document.getElementById("score").innerHTML = "Score =" + " "+ game.score;
  }
 //****************************************************** */
 //***** insertArrayMatrix Function********************** */

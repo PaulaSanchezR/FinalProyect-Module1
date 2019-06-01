@@ -1,0 +1,60 @@
+body {
+    background-image: url(../images/room-dark.jpg);
+    /* opacity:0.3; */
+    margin: 30px;
+    display: flex;
+  
+    /* This centers our sketch horizontally. */
+    justify-content: center;
+  
+    /* This centers our sketch vertically. */
+    align-items: center;
+    color: white
+  }
+
+.canvas {
+    
+    padding-right: 120px; 
+    padding-left: 120px;
+    width: 500px;
+    height: 650px;
+    border: 1px solid rgba(173, 173, 173, 0.904);
+    border-radius:  12px;
+    background-color: rgba(16, 184, 240, 0.9);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+   
+
+}
+
+.datos{
+    margin: 20px;
+    width: 300px;
+    float: left;
+    font-size: 2em;
+    font-family: monospace;
+    float:clear;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.rules{
+    /* float: right; */
+    width: 20%;
+    margin-top: 50px;
+    margin-left: 40px;
+    border: 2px solid rgba(18, 20, 119, 0.904);
+    border-radius: 40px;
+    font-size: 15px;
+    padding:10px;
+    font-family: monospace;
+    position: absolute;
+    right: 20%;
+    box-shadow: 5px 5px 5px rgb(123, 142, 185);
+   
+}
+
+h1 {
+    
+    color: lightgray;
+    font-size: 45px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  }

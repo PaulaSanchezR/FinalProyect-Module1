@@ -4,13 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style/style.css">
     <title> *** Columns ***</title>
 </head>
 <body>
-   
-    <canvas id="mycanvas" width="250" height="450"></canvas>
+   <div class="canvas">
+       <h1>Columns Game</h1>
+       <canvas id="mycanvas" width="250" height="450"></canvas>
+       
+       <div class="datos" id="score"> </div>
+       
+    </div>
+    <div class="rules"><h2>Game Rules:</h2>
+           <ul>
+               <li>Line up three vertical color blocks and you score 100 points.</li>
+               <li>Move the arrow key to the left or right to move the blocks.</li>
+               <li>If your blocks stack all the way to the bottom, it will be <b>GAME OVER.</b></li>
+           
+            </ul>
+       </div>
     
-     <div id ="score">SCORE : </div>
+     
     <script src="js/js.js"></script>
    
 </body>
