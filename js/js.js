@@ -8,7 +8,6 @@ function drawBackground(){
     ctx.fillRect(0, 0, mycanvas.width, mycanvas.height);
 }
 
-
 // create the square  cusntructor
 const ShapeSquare = function(x,y,color){
      this.x = x;
@@ -19,26 +18,10 @@ const ShapeSquare = function(x,y,color){
      // create a fuction to draw the square
      this.draw = function() 
             { 
-                /*let my_gradient = ctx.createLinearGradient(this.x, this.y, 220, 0);
-                my_gradient.addColorStop (0 , color);
-                my_gradient.addColorStop(1, "white")
-                ctx.fillStyle = my_gradient;*/
                 ctx.fillStyle = color;
                 ctx.fillRect(this.x, this.y , this.width ,this.height);
-               // ctx.clearRect(this.x + 6, this.y + 6  , 10  ,10);
-            }
+             }
 }
-/*
-
-    let my_gradient = ctx.createLinearGradient(0, 0, 170, 0);
-    my_gradient.addColorStop(0, "red");
-    my_gradient.addColorStop(1, "blue");
-    ctx.fillStyle = my_gradient;<!--from  www.j av a  2 s.c om-->
-    ctx.fillRect(20, 20, 150, 100);
-
-*/
-
-
 
 
 const Boundaries = function (){
@@ -103,27 +86,6 @@ function randomColor(){
     return colorArray[randColor];
 }
 
-/*          let x= 0;
-            let y= 400;
-            let counter= 4 ;
-            // let square = new ShapeSquare(x,y,randomColor());
-            console.log("square= ", game.sphapeArray.length);
-            // creating the three squares on the array
-            while(game.sphapeArray.length <= counter){
-                let square = new ShapeSquare(x,y,randomColor());
-                this.addShape = game.sphapeArray.push(square);
-                console.log(square);
-                console.log("push squares = " ,this.addShape);
-                y += 25;
-                counter --;
-
-            }  
-        }
- 
-
-
-starGame();*/
-
 
 // Dom manipulation to move the squares of the array
 document.onkeydown = function(event){
@@ -143,20 +105,18 @@ document.onkeydown = function(event){
                 
                 }
         break;
-        case 40:
-        for(i =0; i < game.sphapeArray.length ; i ++){
-            game.sphapeArray[i].draw = "pink";
-            }
-       
-           /* let firstColor = game.sphapeArray[0].color
-            let secondColor = game.sphapeArray[1].color
-            game.sphapeArray[0].color = game.sphapeArray[2].color ;
-            game.sphapeArray[1].color = firstColor ;
-            game.sphapeArray[2].color = secondColor;
-            console.log(game.sphapeArray);*/
-            
-        
-        break;
+        // case 40:
+        //    let newColors=[];
+        // for(i =0; i < game.sphapeArray.length ; i ++){
+        //     newColors.push(game.sphapeArray[i]);
+        //    }
+             //    console.log("the array", game.sphapeArray);
+        //    console.log("the new", newColors);
+        //    console.log("reverse", newColors.reverse());
+        //    newColors = newColors.reverse();
+        //    game.shapeArray = newColors;
+        //    console.log("***NUEVO***", game.sphapeArray);
+        // break;
 
     }
 }
@@ -198,9 +158,6 @@ function movementShape(){
 /********************************************** */
 function checkCollision(){
    let collision = false;
-   //console.log('game.setAllShape', game.setAllShapes);
-   //console.log('game.shapeArray', game.sphapeArray);
-   //console.log(game.sphapeArray[0].y);
    let shapeArrayY= Math.floor(game.sphapeArray[0].y/25);
    let shapeArrayX = Math.floor(game.sphapeArray[0].x/25);
  
@@ -229,7 +186,6 @@ function stopAnimation(){
     
     //draw background
     drawBackground();
-
     // Function that insert the colors on the matrix
     insertArrayMatrix();
     deleteEqualColor();
@@ -288,18 +244,10 @@ function deleteHorizontalFromTheCenter(shapeArrayX,shapeArrayYT){
             game.setAllShapes[shapeArrayYT][shapeArrayX - 1] = 0;
             game.setAllShapes[shapeArrayYT][shapeArrayX + 1] = 0;
             game.score += 100;
-           // game.setAllShapes[shapeArrayYT][shapeArrayX]= game.setAllShapes[shapeArrayYT + 2][shapeArrayX];
-          //  game.setAllShapes[shapeArrayYT-1][shapeArrayX]= game.setAllShapes[shapeArrayYT + 3][shapeArrayX];
-         //   game.setAllShapes[shapeArrayYT + 2][shapeArrayX] = 0;
-          //  game.setAllShapes[shapeArrayYT + 3][shapeArrayX]= 0;
-        }
+         }
    }
 
 function deleteEqualColor(){
-   
-        //console.log('game.setAllShape', game.setAllShapes);
-        //console.log('game.shapeArray', game.sphapeArray);
-       // console.log(Math.floor(game.sphapeArray[2].x/25));
         let shapeArrayY= Math.floor(game.sphapeArray[0].y/25);
         let shapeArrayX = Math.floor(game.sphapeArray[0].x/25);
       
@@ -312,21 +260,10 @@ function deleteEqualColor(){
                  shapeArrayYT = shapeArrayY-1;
              }
         if(game.setAllShapes[shapeArrayYT][shapeArrayX]){
-            // console.log("Datos cuando colpasa",game.setAllShapes[shapeArrayYT][shapeArrayX]);
-            // console.log("siguiente position",game.setAllShapes[shapeArrayYT + 1][shapeArrayX]);
-            // console.log("dos position mas",game.setAllShapes[shapeArrayYT + 2][shapeArrayX]);
-            // console.log("position x", shapeArrayX,"position y",shapeArrayYT);
-             
-            // console.log("anterior position",game.setAllShapes[shapeArrayYT -1][shapeArrayX]);
-
             deleteTwoFromOne(shapeArrayX,shapeArrayYT);
             deleteOneFromTwo(shapeArrayX,shapeArrayYT);
             deleteHorizontalFromTheCenter(shapeArrayX,shapeArrayYT);
-              
-         };
-     
-        // return collision;
-     
+       };
 }
 
 
@@ -350,10 +287,7 @@ function insertArrayMatrix(){
         if (y === 18){
             gameOver();
         }
-    
-      //  }
-    }
-    
+     }
 }
 
 //*************************************************************** */
@@ -382,9 +316,7 @@ function drawMatrix(){
                 //console.log("drawing the array=", square.draw());
            }
        }
-       
-   }
-
+    }
 }
 
 function gameOver(){
